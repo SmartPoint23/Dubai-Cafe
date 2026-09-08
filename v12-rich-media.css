@@ -1,0 +1,8 @@
+
+/* V12 — rich product photography + price presentation */
+.bq-v12-gallery{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:10px}
+.bq-v12-gallery img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:12px;display:block}
+.bq-v12-price{font-size:1.08rem;font-weight:900;letter-spacing:.01em}
+.bq-v12-old{text-decoration:line-through;opacity:.55;margin-left:7px;font-size:.86rem}
+.bq-v12-badge{display:inline-flex;align-items:center;gap:5px;padding:5px 9px;border-radius:999px;font-weight:800;font-size:.72rem}
+@media(max-width:760px){.bq-v12-gallery{grid-template-columns:repeat(3,minmax(0,1fr))}}

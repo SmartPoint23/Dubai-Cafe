@@ -1,0 +1,9 @@
+{
+  "version": "V12-RICH-PHOTOS-PRICES",
+  "base": "V11-400-PRODUCTS-DEEP",
+  "v11_sha256": "64256c3f2557469cfe94d7b1f697f4d0664016b2dd956450b324264d6bab4d14",
+  "preservation": "BACKUP_V11_COMPLETE plus prior backup chain",
+  "photo_goal": "multiple visual variants per product",
+  "price_goal": "clear KES prices and varied price presentation",
+  "products": "400 preserved"
+}
