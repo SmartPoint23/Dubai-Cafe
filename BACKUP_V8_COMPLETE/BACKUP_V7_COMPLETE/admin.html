@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Beauty Queen Cosmetics — Admin V7</title>
+<style>
+body{font-family:Inter,system-ui,sans-serif;background:#f7f4f5;margin:0;color:#251c20}
+header{background:#21161b;color:#fff;padding:22px 28px;display:flex;justify-content:space-between;align-items:center}
+main{max-width:1250px;margin:auto;padding:28px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.card{background:#fff;padding:20px;border-radius:18px;box-shadow:0 8px 30px #0000000d}
+.metric{font-size:30px;font-weight:800}.muted{color:#7d7075}
+.panel{background:#fff;margin-top:22px;padding:22px;border-radius:20px;overflow:auto}
+button{border:0;border-radius:10px;padding:10px 14px;cursor:pointer;font-weight:700}
+.primary{background:#251c20;color:#fff}.danger{background:#c63f58;color:#fff}.soft{background:#eee6e9}
+input,select{padding:10px;border:1px solid #ddd;border-radius:9px;width:100%;box-sizing:border-box}
+form{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.full{grid-column:1/-1}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px;border-bottom:1px solid #eee;white-space:nowrap}
+.actions{display:flex;gap:7px}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}form{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><strong>Beauty Queen Cosmetics · Admin V7</strong><a href="index.html" style="color:#fff">Storefront</a></header>
+<main>
+<div class="card" style="margin-bottom:20px">
+  <label>Admin API key <input id="key" type="password" placeholder="Enter ADMIN_API_KEY"></label>
+  <button class="primary" onclick="loadAll()" style="margin-top:10px">Connect dashboard</button>
+  <p id="status" class="muted"></p>
+</div>
+<section class="grid">
+<div class="card"><div class="muted">Products</div><div id="mProducts" class="metric">—</div></div>
+<div class="card"><div class="muted">Orders</div><div id="mOrders" class="metric">—</div></div>
+<div class="card"><div class="muted">Users</div><div id="mUsers" class="metric">—</div></div>
+<div class="card"><div class="muted">Paid revenue</div><div id="mRevenue" class="metric">—</div></div>
+</section>
+
+<section class="panel">
+<h2>Add product</h2>
+<form id="productForm">
+<input id="pName" placeholder="Product name" required>
+<input id="pCategory" placeholder="Category" required>
+<input id="pBrand" placeholder="Brand">
+<input id="pPrice" type="number" placeholder="Price KES" required>
+<input id="pStock" type="number" placeholder="Stock" value="0">
+<input id="pImage" placeholder="Image URL">
+<input id="pBadge" placeholder="Badge e.g. NEW">
+<input id="pOld" type="number" placeholder="Old price">
+<input id="pRating" type="number" step=".1" max="5" placeholder="Rating">
+<input class="full" id="pDescription" placeholder="Description">
+<button class="primary full" type="submit">Add product</button>
+</form>
+</section>
+
+<section class="panel"><h2>Products</h2><div id="products">Connect to load products.</div></section>
+<section class="panel"><h2>Orders</h2><div id="orders">Connect to load orders.</div></section>
+<section class="panel"><h2>Users</h2><div id="users">Connect to load users.</div></section>
+</main>
+<script>
+const base=localStorage.getItem("bq_api_base")||"http://localhost:8787";
+const key=()=>document.getElementById("key").value.trim();
+async function api(path,opt={}){const r=await fetch(base+path,{...opt,headers:{"Content-Type":"application/json","x-admin-key":key(),...(opt.headers||{})}});const d=await r.json();if(!r.ok)throw Error(d.error||"Request failed");return d}
+async function loadAll(){try{document.getElementById("status").textContent="Loading…";const [s,p,o,u]=await Promise.all([api("/api/admin/stats"),api("/api/admin/products"),api("/api/admin/orders"),api("/api/admin/users")]);mProducts.textContent=s.products;mOrders.textContent=s.orders;mUsers.textContent=s.users;mRevenue.textContent="KES "+Number(s.revenue||0).toLocaleString();renderProducts(p);renderOrders(o);renderUsers(u);document.getElementById("status").textContent="Connected";}catch(e){document.getElementById("status").textContent=e.message}}
+function renderProducts(rows){products.innerHTML=`<table><tr><th>Name</th><th>Category</th><th>Price</th><th>Stock</th><th>Active</th><th>Action</th></tr>`+rows.map(p=>`<tr><td>${p.name}</td><td>${p.category}</td><td>KES ${p.price}</td><td>${p.stock}</td><td>${p.active}</td><td class="actions"><button class="danger" onclick="delProduct('${p.id}')">Delete</button></td></tr>`).join("")+"</table>"}
+function renderOrders(rows){orders.innerHTML=`<table><tr><th>Order</th><th>Customer</th><th>Total</th><th>Payment</th><th>Status</th><th>Action</th></tr>`+rows.map(o=>`<tr><td>${o.order_number}</td><td>${o.customer_name}</td><td>${o.currency} ${o.total}</td><td>${o.payment_status}</td><td>${o.order_status}</td><td><button class="soft" onclick="statusOrder('${o.id}','processing')">Processing</button> <button class="primary" onclick="statusOrder('${o.id}','shipped')">Shipped</button></td></tr>`).join("")+"</table>"}
+function renderUsers(rows){users.innerHTML=`<table><tr><th>Name</th><th>Phone</th><th>Role</th><th>Created</th></tr>`+rows.map(u=>`<tr><td>${u.full_name||"—"}</td><td>${u.phone||"—"}</td><td>${u.role}</td><td>${new Date(u.created_at).toLocaleString()}</td></tr>`).join("")+"</table>"}
+async function delProduct(id){if(!confirm("Delete this product?"))return;await api("/api/admin/products/"+id,{method:"DELETE"});loadAll()}
+async function statusOrder(id,status){await api("/api/admin/orders/"+id,{method:"PATCH",body:JSON.stringify({order_status:status})});loadAll()}
+productForm.onsubmit=async e=>{e.preventDefault();try{await api("/api/admin/products",{method:"POST",body:JSON.stringify({name:pName.value,category:pCategory.value,brand:pBrand.value,price:Number(pPrice.value),stock:Number(pStock.value),image:pImage.value,badge:pBadge.value,old_price:pOld.value?Number(pOld.value):null,rating:pRating.value?Number(pRating.value):0,description:pDescription.value,active:true})});e.target.reset();loadAll()}catch(err){alert(err.message)}}
+</script>
+</body></html>

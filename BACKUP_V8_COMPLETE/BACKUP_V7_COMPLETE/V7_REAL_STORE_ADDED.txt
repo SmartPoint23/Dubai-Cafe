@@ -1,0 +1,1 @@
+Beauty Queen Cosmetics V7: real-store backend, database schema, checkout, M-PESA, PayPal, admin CRUD, orders and users added. Original V6 preserved in BACKUP_V6_COMPLETE.
