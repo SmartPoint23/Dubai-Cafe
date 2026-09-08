@@ -1,8 +1,55 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Beauty Queen Admin</title><link rel="stylesheet" href="src/styles.css"></head><body>
-<div style="padding:40px 7%;max-width:1200px;margin:auto"><a class="logo" href="index.html">BEAUTY QUEEN</a><h1>Admin Dashboard</h1><p class="muted">Production-ready structure for connecting a real database, payment gateway, inventory and fulfillment system.</p>
-<div class="category-grid" style="grid-template-columns:repeat(4,1fr)">
-<button>📦<b>1,248 Products</b><small>Manage catalog</small></button><button>🛒<b>86 Orders</b><small>Process orders</small></button><button>👩‍🦰<b>3,420 Customers</b><small>Customer accounts</small></button><button>💳<b>KES 1.8M</b><small>Sales overview</small></button>
-</div>
-<section class="section" style="padding-left:0;padding-right:0"><h2>Management modules</h2><div class="category-grid" style="grid-template-columns:repeat(3,1fr)">
-<button>Products & Variants</button><button>Categories & Brands</button><button>Inventory</button><button>Orders & Fulfillment</button><button>Payments & Refunds</button><button>Customers</button><button>Coupons & Promotions</button><button>Reviews</button><button>Homepage Content</button><button>Delivery Zones</button><button>Reports</button><button>Admin Users & Security</button>
-</div></section></div></body></html>
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Beauty Queen Cosmetics — Admin V8</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f7f3f5;color:#241a1f;font-family:Inter,system-ui,sans-serif}
+header{background:#20151a;color:#fff;padding:20px 28px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:5}
+main{max-width:1400px;margin:auto;padding:24px}.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.card,.panel{background:#fff;border-radius:18px;padding:20px;box-shadow:0 8px 28px #0000000a}.metric{font-size:29px;font-weight:850}.muted{color:#7c6e74}
+.panel{margin-top:20px;overflow:auto}h2{margin-top:0}button{border:0;border-radius:10px;padding:9px 13px;font-weight:700;cursor:pointer}.primary{background:#241a1f;color:#fff}.danger{background:#c73f59;color:#fff}.soft{background:#eee6e9}
+input,select,textarea{padding:10px;border:1px solid #ddd;border-radius:9px;width:100%;font:inherit}form{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.full{grid-column:1/-1}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:10px;border-bottom:1px solid #eee;vertical-align:top}.actions{display:flex;gap:6px;flex-wrap:wrap}.badge{padding:4px 8px;border-radius:99px;background:#f0e5e9;font-size:12px;font-weight:800}
+@media(max-width:1100px){.grid{grid-template-columns:repeat(3,1fr)}form{grid-template-columns:repeat(2,1fr)}}@media(max-width:650px){.grid{grid-template-columns:repeat(2,1fr)}form{grid-template-columns:1fr}}
+</style></head>
+<body>
+<header><strong>Beauty Queen Cosmetics · Admin V8</strong><a href="index.html" style="color:white">Storefront</a></header>
+<main>
+<section class="card"><label>Admin API key<input id="key" type="password" placeholder="Enter ADMIN_API_KEY"></label><button class="primary" onclick="loadAll()" style="margin-top:10px">Connect</button><span id="status" class="muted" style="margin-left:12px"></span></section>
+<section class="grid" style="margin-top:18px">
+<div class="card"><div class="muted">Products</div><div id="mProducts" class="metric">—</div></div>
+<div class="card"><div class="muted">Orders</div><div id="mOrders" class="metric">—</div></div>
+<div class="card"><div class="muted">Users</div><div id="mUsers" class="metric">—</div></div>
+<div class="card"><div class="muted">Revenue</div><div id="mRevenue" class="metric">—</div></div>
+<div class="card"><div class="muted">Low stock</div><div id="mLow" class="metric">—</div></div>
+</section>
+<section class="panel"><h2>Add product</h2><form id="productForm">
+<input id="pName" placeholder="Product name" required><input id="pCategory" placeholder="Category" required><input id="pBrand" placeholder="Brand">
+<input id="pPrice" type="number" placeholder="Price KES" required><input id="pOld" type="number" placeholder="Old price"><input id="pStock" type="number" value="0" placeholder="Stock">
+<input id="pImage" placeholder="Image URL"><input id="pBadge" placeholder="Badge"><input id="pRating" type="number" step=".1" max="5" placeholder="Rating">
+<input class="full" id="pDescription" placeholder="Description"><button class="primary full" type="submit">Add product</button></form></section>
+<section class="panel"><h2>Inventory</h2><div id="products">Connect first.</div></section>
+<section class="panel"><h2>Orders & tracking</h2><div id="orders">Connect first.</div></section>
+<section class="panel"><h2>Users</h2><div id="users">Connect first.</div></section>
+<section class="panel"><h2>Coupons</h2><form id="couponForm">
+<input id="cCode" placeholder="Code e.g. QUEEN10" required><select id="cType"><option value="percent">Percent</option><option value="fixed">Fixed KES</option></select>
+<input id="cValue" type="number" placeholder="Discount" required><input id="cMin" type="number" placeholder="Min order">
+<input id="cMax" type="number" placeholder="Max uses"><input id="cExpiry" type="datetime-local" placeholder="Expires">
+<button class="primary" type="submit">Create coupon</button></form><div id="coupons" style="margin-top:15px"></div></section>
+</main>
+<script>
+const base=localStorage.getItem("bq_api_base")||"http://localhost:8787";
+const key=()=>document.getElementById("key").value.trim();
+async function api(path,opt={}){const r=await fetch(base+path,{...opt,headers:{"Content-Type":"application/json","x-admin-key":key(),...(opt.headers||{})}});const d=await r.json();if(!r.ok)throw Error(d.error||"Request failed");return d}
+async function loadAll(){try{status.textContent="Loading…";const [s,p,o,u,c]=await Promise.all([api("/api/admin/stats"),api("/api/admin/products"),api("/api/admin/orders"),api("/api/admin/users"),api("/api/admin/coupons")]);mProducts.textContent=s.products;mOrders.textContent=s.orders;mUsers.textContent=s.users;mRevenue.textContent="KES "+Number(s.revenue||0).toLocaleString();mLow.textContent=s.low_stock;renderProducts(p);renderOrders(o);renderUsers(u);renderCoupons(c);status.textContent="Connected";}catch(e){status.textContent=e.message}}
+function renderProducts(rows){products.innerHTML='<table><tr><th>Product</th><th>Price</th><th>Stock</th><th>Active</th><th>Actions</th></tr>'+rows.map(p=>`<tr><td><b>${p.name}</b><br><span class="muted">${p.brand||""} · ${p.category}</span></td><td>KES ${p.price}</td><td>${p.stock}</td><td>${p.active?'<span class="badge">LIVE</span>':'<span class="badge">HIDDEN</span>'}</td><td class="actions"><button class="soft" onclick="editStock('${p.id}',${p.stock})">Stock</button><button class="soft" onclick="toggleProduct('${p.id}',${!p.active})">${p.active?'Hide':'Publish'}</button><button class="danger" onclick="delProduct('${p.id}')">Delete</button></td></tr>`).join("")+'</table>'}
+function renderOrders(rows){orders.innerHTML='<table><tr><th>Order</th><th>Customer</th><th>Total</th><th>Payment</th><th>Status</th><th>Actions</th></tr>'+rows.map(o=>`<tr><td><b>${o.order_number}</b><br><small>${new Date(o.created_at).toLocaleString()}</small></td><td>${o.customer_name}<br>${o.customer_phone}</td><td>${o.currency} ${o.total}</td><td>${o.payment_status}<br>${o.payment_method}</td><td><span class="badge">${o.order_status}</span></td><td class="actions"><button class="soft" onclick="setOrder('${o.id}','processing')">Processing</button><button class="soft" onclick="setOrder('${o.id}','shipped')">Shipped</button><button class="primary" onclick="setOrder('${o.id}','delivered')">Delivered</button><button class="danger" onclick="setOrder('${o.id}','cancelled')">Cancel</button><button class="soft" onclick="events('${o.id}')">Timeline</button></td></tr>`).join("")+'</table>'}
+function renderUsers(rows){users.innerHTML='<table><tr><th>Name</th><th>Phone</th><th>Role</th><th>Created</th></tr>'+rows.map(u=>`<tr><td>${u.full_name||"—"}</td><td>${u.phone||"—"}</td><td>${u.role}</td><td>${u.created_at?new Date(u.created_at).toLocaleString():"—"}</td></tr>`).join("")+'</table>'}
+function renderCoupons(rows){coupons.innerHTML='<table><tr><th>Code</th><th>Discount</th><th>Uses</th><th>Expires</th><th>Active</th></tr>'+rows.map(c=>`<tr><td><b>${c.code}</b></td><td>${c.discount_type==="percent"?c.discount_value+"%":"KES "+c.discount_value}</td><td>${c.used_count}${c.max_uses?"/"+c.max_uses:""}</td><td>${c.expires_at?new Date(c.expires_at).toLocaleString():"No expiry"}</td><td>${c.active}</td></tr>`).join("")+'</table>'}
+async function delProduct(id){if(confirm("Delete this product?")){await api("/api/admin/products/"+id,{method:"DELETE"});loadAll()}}
+async function toggleProduct(id,active){await api("/api/admin/products/"+id,{method:"PATCH",body:JSON.stringify({active})});loadAll()}
+async function editStock(id,stock){const n=prompt("New stock quantity",stock);if(n!==null&&!isNaN(n)){await api("/api/admin/products/"+id,{method:"PATCH",body:JSON.stringify({stock:Number(n)})});loadAll()}}
+async function setOrder(id,status){await api("/api/admin/orders/"+id,{method:"PATCH",body:JSON.stringify({order_status:status})});loadAll()}
+async function events(id){const e=await api("/api/admin/events/"+id);alert(e.map(x=>`${new Date(x.created_at).toLocaleString()} — ${x.status} — ${x.note||""}`).join("\\n")||"No events")}
+productForm.onsubmit=async e=>{e.preventDefault();try{await api("/api/admin/products",{method:"POST",body:JSON.stringify({name:pName.value,category:pCategory.value,brand:pBrand.value,price:+pPrice.value,old_price:pOld.value?+pOld.value:null,stock:+pStock.value,image:pImage.value,badge:pBadge.value,rating:pRating.value?+pRating.value:0,description:pDescription.value,active:true,currency:"KES"})});e.target.reset();loadAll()}catch(err){alert(err.message)}}
+couponForm.onsubmit=async e=>{e.preventDefault();try{await api("/api/admin/coupons",{method:"POST",body:JSON.stringify({code:cCode.value,discount_type:cType.value,discount_value:+cValue.value,min_order:+(cMin.value||0),max_uses:cMax.value?+cMax.value:null,expires_at:cExpiry.value?new Date(cExpiry.value).toISOString():null,active:true})});e.target.reset();loadAll()}catch(err){alert(err.message)}}
+</script></body></html>

@@ -1,0 +1,13 @@
+{
+  "version": "V9-DEEP",
+  "base": "BEAUTY_QUEEN_COSMETICS_REAL_STORE_V8",
+  "preserves_v8": true,
+  "preserves_prior_backup_chain": true,
+  "real_money_requires_secrets": true,
+  "payments": [
+    "M-PESA",
+    "PayPal"
+  ],
+  "database": "Supabase/PostgreSQL",
+  "card_policy": "PCI-compliant hosted/tokenized gateway only; no raw card storage"
+}
