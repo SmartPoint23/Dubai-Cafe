@@ -1,0 +1,7 @@
+{
+  "name":"beauty-queen-cosmetics",
+  "version":"1.0.0",
+  "private":true,
+  "description":"Luxury cosmetics ecommerce frontend starter",
+  "scripts":{"start":"npx serve .","preview":"npx serve ."}
+}

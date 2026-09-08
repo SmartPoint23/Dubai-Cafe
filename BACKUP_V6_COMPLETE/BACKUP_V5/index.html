@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Beauty Queen Cosmetics</title>
+<link rel="stylesheet" href="src/styles.css">
+</head>
+<body>
+<div class="announcement">✨ Luxury Beauty • New arrivals every week • Secure checkout • Nationwide delivery</div>
+<header class="header">
+  <a class="logo" href="#">BEAUTY <span>QUEEN</span></a>
+  <nav>
+    <a href="#shop">Shop</a><a href="#categories">Categories</a><a href="#luxury">Luxury</a>
+    <a href="#deals">Deals</a><a href="#brands">Brands</a><a href="#routines">Routines</a><a href="#offers">Offers</a><a href="#payment">Payment</a><a href="#contact">Contact</a>
+  </nav>
+  <div class="actions">
+    <button onclick="focusSearch()">⌕</button><button onclick="toggleWishlist()">♡ <b id="wishCount">0</b></button>
+    <button onclick="toggleCart()">🛍 <b id="cartCount">0</b></button>
+  </div>
+</header>
+
+<section class="hero">
+  <div>
+    <p class="eyebrow">THE BEAUTY EDIT</p>
+    <h1>Luxury beauty,<br><i>made for you.</i></h1>
+    <p>Discover premium skincare, signature perfumes, makeup, hair care and everything you need for your beauty ritual.</p>
+    <a class="btn" href="#shop">Shop collection</a>
+  </div>
+  <div class="hero-card">
+      <img src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&w=1200&q=88" alt="Beauty Queen skincare collection">
+      <div class="hero-overlay"><span>NEW</span><h2>Glow<br>Collection</h2><p>Skincare essentials</p></div>
+    </div>
+</section>
+
+<section class="trust">
+  <div>🚚 <b>Fast Delivery</b><small>Kenya-wide</small></div>
+  <div>🔒 <b>Secure Checkout</b><small>Protected payments</small></div>
+  <div>✨ <b>Authentic Beauty</b><small>Quality products</small></div>
+  <div>💬 <b>Beauty Support</b><small>We're here to help</small></div>
+</section>
+
+<section id="categories" class="section">
+<h2>Shop by category</h2><p class="muted">Everything your beauty routine needs.</p>
+<div class="category-grid">
+  <button onclick="filterCat('Skincare')">🧴<b>Skincare</b><small>Glow & care</small></button>
+  <button onclick="filterCat('Makeup')">💄<b>Makeup</b><small>Looks for every day</small></button>
+  <button onclick="filterCat('Perfume')">🌸<b>Perfumes</b><small>Signature scents</small></button>
+  <button onclick="filterCat('Hair')">💇‍♀️<b>Hair Care</b><small>Healthy hair</small></button>
+  <button onclick="filterCat('Body')">🛁<b>Body Care</b><small>Soft & radiant</small></button>
+  <button onclick="filterCat('Nails')">💅<b>Nails</b><small>Polish & kits</small></button>
+  <button onclick="filterCat('Tools')">🪞<b>Beauty Tools</b><small>Pro essentials</small></button>
+  <button onclick="filterCat('Gifts')">🎁<b>Gift Sets</b><small>Beautiful gifting</small></button>
+</div>
+</section>
+
+<section id="luxury" class="luxury">
+<div><p class="eyebrow">LUXURY COLLECTION</p><h2>Beauty that feels<br>extraordinary.</h2><p>Curated premium pieces for your shelf, your routine and your special moments.</p><a class="btn light" href="#shop">Explore luxury</a></div>
+</section>
+
+<section class="promo-strip">
+      <div><strong>BEAUTY QUEEN MEMBERS</strong><span>Free delivery on selected orders • Exclusive beauty drops</span></div>
+      <button class="mini-btn" onclick="showToast('Welcome to Beauty Queen ✨')">Join the beauty club</button>
+    </section>
+
+<section class="visual-categories section">
+  <div class="shop-head"><div><p class="eyebrow">EXPLORE BEAUTY</p><h2>Shop the look</h2><p class="muted">Discover curated essentials with real product photography.</p></div></div>
+  <div class="visual-cat-grid">
+    <button onclick="filterCat('Skincare')"><img src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?auto=format&fit=crop&w=900&q=85" alt="Skincare products"><span>Skincare</span></button>
+    <button onclick="filterCat('Makeup')"><img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=900&q=85" alt="Makeup products"><span>Makeup</span></button>
+    <button onclick="filterCat('Perfume')"><img src="https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=900&q=85" alt="Perfume bottles"><span>Perfume</span></button>
+    <button onclick="filterCat('Hair')"><img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=900&q=85" alt="Hair care"><span>Hair Care</span></button>
+  </div>
+</section>
+
+<section id="shop" class="section">
+<div class="shop-head"><div><h2>Best sellers</h2><p class="muted">Loved by our beauty community.</p></div>
+<div class="controls"><input id="search" placeholder="Search products..." oninput="renderProducts()"><select id="sort" onchange="renderProducts()"><option value="featured">Featured</option><option value="priceLow">Price: low to high</option><option value="priceHigh">Price: high to low</option><option value="rating">Top rated</option></select></div></div>
+<div id="products" class="product-grid"></div>
+</section>
+
+<section id="deals" class="deal">
+<div><p class="eyebrow">BEAUTY WEEK</p><h2>Up to 30% off selected beauty</h2><p>Limited-time offers on selected collections.</p></div>
+<button class="btn" onclick="filterCat('All')">Shop deals</button>
+</section>
+
+<section id="brands" class="section alt"><div class="shop-head"><div><p class="eyebrow">GLOBAL BEAUTY BRANDS</p><h2>Shop by brand</h2><p class="muted">Discover iconic, premium and emerging beauty names.</p></div></div><div class="brand-grid"><button onclick="filterBrand('All Brands')">All Brands</button><button onclick="filterBrand('The Ordinary')">The Ordinary</button><button onclick="filterBrand('CeraVe')">CeraVe</button><button onclick="filterBrand('La Roche-Posay')">La Roche-Posay</button><button onclick="filterBrand('Maybelline')">Maybelline</button><button onclick="filterBrand('MAC')">MAC</button><button onclick="filterBrand('L’Oréal')">L’Oréal</button><button onclick="filterBrand('Estée Lauder')">Estée Lauder</button><button onclick="filterBrand('NARS')">NARS</button><button onclick="filterBrand('Dior Beauty')">Dior Beauty</button><button onclick="filterBrand('YSL Beauty')">YSL Beauty</button><button onclick="filterBrand('Chanel Beauty')">Chanel Beauty</button><button onclick="filterBrand('Rare Beauty')">Rare Beauty</button><button onclick="filterBrand('Fenty Beauty')">Fenty Beauty</button><button onclick="filterBrand('COSRX')">COSRX</button><button onclick="filterBrand('Neutrogena')">Neutrogena</button><button onclick="filterBrand('Vaseline')">Vaseline</button><button onclick="filterBrand('SheaMoisture')">SheaMoisture</button></div></section>
+<section id="routines" class="routine-section"><div><p class="eyebrow">BEAUTY ROUTINES</p><h2>Build your ritual.</h2><p>Shop complete routines for glow, hydration, acne care, fragrance layering, hair repair and body care.</p></div><div class="routine-grid"><button onclick="routine('Morning Glow')">☀️ <b>Morning Glow</b><small>Curated essentials</small></button><button onclick="routine('Night Repair')">🌙 <b>Night Repair</b><small>Curated essentials</small></button><button onclick="routine('Glass Skin')">💎 <b>Glass Skin</b><small>Curated essentials</small></button><button onclick="routine('Acne Care')">🌿 <b>Acne Care</b><small>Curated essentials</small></button><button onclick="routine('Fragrance Layering')">🌸 <b>Fragrance Layering</b><small>Curated essentials</small></button><button onclick="routine('Hair Repair')">💇‍♀️ <b>Hair Repair</b><small>Curated essentials</small></button><button onclick="routine('Body Glow')">✨ <b>Body Glow</b><small>Curated essentials</small></button><button onclick="routine('Bridal Beauty')">👰 <b>Bridal Beauty</b><small>Curated essentials</small></button></div></section>
+<section id="offers" class="section"><div class="shop-head"><div><p class="eyebrow">MEMBER-STYLE OFFERS</p><h2>Beauty deals</h2><p class="muted">Bundle more, save more.</p></div></div><div class="offer-grid"><div><span>15% OFF</span><h3>First beauty order</h3><p>Use code <b>QUEEN15</b> on eligible products.</p></div><div><span>FREE DELIVERY</span><h3>Selected Nairobi orders</h3><p>Free delivery on qualifying baskets.</p></div><div><span>BUNDLE & SAVE</span><h3>Routine bundles</h3><p>Mix skincare, body and hair essentials.</p></div><div><span>GIFT READY</span><h3>Luxury packaging</h3><p>Beautiful gifting for special moments.</p></div></div></section>
+<section class="section"><div class="shop-head"><div><p class="eyebrow">BEAUTY JOURNAL</p><h2>Learn before you buy.</h2></div></div><div class="journal-grid"><article><div class="journal-img">🧴</div><h3>How to build a simple skincare routine</h3><p>Cleanse, treat, moisturize and protect—without overcomplicating your shelf.</p><a href="#routines">Explore routine →</a></article><article><div class="journal-img">💄</div><h3>Makeup essentials for everyday looks</h3><p>Build a practical makeup bag with complexion, eyes, lips and tools.</p><a href="#shop">Shop makeup →</a></article><article><div class="journal-img">🌸</div><h3>How to choose your signature scent</h3><p>Explore floral, fresh, sweet, woody and oriental fragrance families.</p><a href="#categories">Explore perfumes →</a></article></div></section>
+<section class="review-section"><p class="eyebrow">BEAUTY COMMUNITY</p><h2>What shoppers are saying</h2><div class="review-grid"><blockquote>“Beautiful selection and easy shopping experience.”<b>— Amina K.</b></blockquote><blockquote>“I love having skincare, perfume and hair care in one place.”<b>— Maryam A.</b></blockquote><blockquote>“The gift sets make special occasions so much easier.”<b>— Sofia N.</b></blockquote></div></section>
+<section class="faq-section"><p class="eyebrow">HELP CENTER</p><h2>Frequently asked questions</h2><details><summary>How do I place an order?</summary><p>Add products to your bag, review your quantities and continue to checkout.</p></details><details><summary>What payment methods are supported?</summary><p>The storefront is prepared for M-Pesa, Visa, Mastercard and bank transfer. Live provider credentials must be configured for production.</p></details><details><summary>Do you deliver across Kenya?</summary><p>The storefront is designed for Kenya-wide delivery, with delivery rules and fees configurable by the admin.</p></details><details><summary>Can I return a product?</summary><p>Return eligibility should be configured according to your final business policy and product category.</p></details></section>
+<section class="tracker"><div><p class="eyebrow">ORDER TRACKING</p><h2>Track your beauty order.</h2><p class="muted">Enter your order number to connect this UI to the production order system.</p></div><div class="track-form"><input id="orderNo" placeholder="e.g. BQ-2026-00123"><button class="btn" onclick="trackOrder()">Track order</button><p id="trackResult"></p></div></section>
+
+<section id="payment" class="payment-section"><div><p class="eyebrow">SAFE & EASY CHECKOUT</p><h2>Pay your way.</h2><p class="muted">Choose a payment method at checkout. Real provider credentials can be connected for live payments.</p></div><div class="payment-grid"><div>📱<b>M-Pesa</b><small>Mobile payment</small></div><div>💳<b>Visa</b><small>Card payment</small></div><div>💳<b>Mastercard</b><small>Card payment</small></div><div>🏦<b>Bank</b><small>Bank transfer</small></div></div></section>
+
+<section id="contact" class="contact-section"><div><p class="eyebrow">CONTACT BEAUTY QUEEN</p><h2>We are here for you.</h2><p class="muted">Questions about products, orders, delivery or returns? Reach out to our beauty support team.</p></div><form onsubmit="sendContact(event)"><input required placeholder="Your name"><input required type="email" placeholder="Email address"><input placeholder="Phone number"><textarea required placeholder="How can we help?"></textarea><button class="btn">Send message</button></form></section>
+
+<section class="social-section"><p class="eyebrow">FOLLOW THE BEAUTY</p><h2>Join our beauty community.</h2><div class="socials"><a href="https://instagram.com/" target="_blank">Instagram</a><a href="https://facebook.com/" target="_blank">Facebook</a><a href="https://tiktok.com/" target="_blank">TikTok</a><a href="https://youtube.com/" target="_blank">YouTube</a><a href="https://wa.me/" target="_blank">WhatsApp</a></div></section>
+
+<section class="assistant">
+<div><p class="eyebrow">BEAUTY AI</p><h2>Your personal beauty assistant.</h2><p>Tell us what you're looking for and get product suggestions, routine ideas and gifting help.</p><button class="btn" onclick="openAssistant()">Ask Beauty AI</button></div>
+<div class="chat-preview"><b>Beauty AI ✨</b><p>“What skincare routine would you recommend for a glowing look?”</p><span>Tap to get started →</span></div>
+</section>
+
+<footer id="about"><div><a class="logo">BEAUTY <span>QUEEN</span></a><p>Luxury cosmetics and beauty essentials.</p></div>
+<div><b>Shop</b><a>Skincare</a><a>Makeup</a><a>Perfumes</a><a>Hair Care</a></div>
+<div><b>Help</b><a>Delivery</a><a>Returns</a><a>Contact</a><a>FAQ</a></div>
+<div><b>Newsletter</b><p>Get beauty drops and offers.</p><input placeholder="Your email"><button class="btn">Join</button></div></footer>
+
+<div id="cart" class="drawer"><div class="drawer-head"><h2>Your bag</h2><button onclick="toggleCart()">×</button></div><div id="cartItems"></div><div class="total"><span>Total</span><b id="total">KES 0</b></div><button class="btn full" onclick="checkout()">Proceed to checkout</button></div>
+
+<section class="payment-methods">
+  <div class="payment-title">
+    <div><span class="eyebrow">SECURE CHECKOUT</span><h3>Choose payment method</h3></div>
+    <span class="secure-badge">🔒 Secure</span>
+  </div>
+  <div class="payment-grid">
+    <button class="payment-option active" data-pay="mpesa" onclick="selectPayment('mpesa')">
+      <span class="pay-icon mpesa-icon">M</span><span><b>M-PESA</b><small>STK Push / Till</small></span><span class="pay-check">✓</span>
+    </button>
+    <button class="payment-option" data-pay="bank" onclick="selectPayment('bank')">
+      <span class="pay-icon">🏦</span><span><b>Bank Transfer</b><small>Pay via bank account</small></span><span class="pay-check">✓</span>
+    </button>
+    <button class="payment-option" data-pay="paypal" onclick="selectPayment('paypal')">
+      <span class="pay-icon paypal-icon">P</span><span><b>PayPal</b><small>PayPal checkout</small></span><span class="pay-check">✓</span>
+    </button>
+    <button class="payment-option" data-pay="card" onclick="selectPayment('card')">
+      <span class="pay-icon">💳</span><span><b>Card</b><small>Visa / Mastercard</small></span><span class="pay-check">✓</span>
+    </button>
+    <button class="payment-option" data-pay="mobile" onclick="selectPayment('mobile')">
+      <span class="pay-icon">📱</span><span><b>Mobile Money</b><small>Supported wallets</small></span><span class="pay-check">✓</span>
+    </button>
+    <button class="payment-option" data-pay="cash" onclick="selectPayment('cash')">
+      <span class="pay-icon">💵</span><span><b>Cash on Delivery</b><small>Where available</small></span><span class="pay-check">✓</span>
+    </button>
+  </div>
+  <div id="paymentForm" class="payment-form"></div>
+  <div class="payment-trust"><span>🔐 SSL-ready checkout</span><span>✓ No card details stored</span><span>📦 Order confirmation</span></div>
+</section>
+
+<div id="overlay" onclick="toggleCart()"></div>
+
+<div id="productModal" class="product-modal" aria-hidden="true">
+  <div class="product-modal-card">
+    <button class="modal-close" onclick="closeProduct()">×</button>
+    <div id="productDetail"></div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+<script src="src/app.js"></script>
+</body></html>
