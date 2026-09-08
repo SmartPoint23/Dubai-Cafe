@@ -27,7 +27,10 @@
     <p>Discover premium skincare, signature perfumes, makeup, hair care and everything you need for your beauty ritual.</p>
     <a class="btn" href="#shop">Shop collection</a>
   </div>
-  <div class="hero-card"><span>NEW</span><h2>Glow<br>Collection</h2><p>Skincare essentials</p></div>
+  <div class="hero-card">
+      <img src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&w=1200&q=88" alt="Beauty Queen skincare collection">
+      <div class="hero-overlay"><span>NEW</span><h2>Glow<br>Collection</h2><p>Skincare essentials</p></div>
+    </div>
 </section>
 
 <section class="trust">
@@ -55,9 +58,40 @@
 <div><p class="eyebrow">LUXURY COLLECTION</p><h2>Beauty that feels<br>extraordinary.</h2><p>Curated premium pieces for your shelf, your routine and your special moments.</p><a class="btn light" href="#shop">Explore luxury</a></div>
 </section>
 
+<section class="promo-strip">
+      <div><strong>BEAUTY QUEEN MEMBERS</strong><span>Free delivery on selected orders • Exclusive beauty drops</span></div>
+      <button class="mini-btn" onclick="showToast('Welcome to Beauty Queen ✨')">Join the beauty club</button>
+    </section>
+
+<section class="visual-categories section">
+  <div class="shop-head"><div><p class="eyebrow">EXPLORE BEAUTY</p><h2>Shop the look</h2><p class="muted">Discover curated essentials with real product photography.</p></div></div>
+  <div class="visual-cat-grid">
+    <button onclick="filterCat('Skincare')"><img src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?auto=format&fit=crop&w=900&q=85" alt="Skincare products"><span>Skincare</span></button>
+    <button onclick="filterCat('Makeup')"><img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=900&q=85" alt="Makeup products"><span>Makeup</span></button>
+    <button onclick="filterCat('Perfume')"><img src="https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=900&q=85" alt="Perfume bottles"><span>Perfume</span></button>
+    <button onclick="filterCat('Hair')"><img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=900&q=85" alt="Hair care"><span>Hair Care</span></button>
+  </div>
+</section>
+
 <section id="shop" class="section">
 <div class="shop-head"><div><h2>Best sellers</h2><p class="muted">Loved by our beauty community.</p></div>
-<div class="controls"><input id="search" placeholder="Search products..." oninput="renderProducts()"><select id="sort" onchange="renderProducts()"><option value="featured">Featured</option><option value="priceLow">Price: low to high</option><option value="priceHigh">Price: high to low</option></select></div></div>
+<div class="controls"><input id="search" placeholder="Search products..." oninput="renderProducts()"><select id="sort" onchange="renderProducts()"><option value="featured">Featured</option><option value="priceLow">Price: low to high</option><option value="priceHigh">Price: high to low</option><option value="rating">Top rated</option></select></div></div>
+
+<div class="advanced-filters">
+  <div class="filter-title"><b>Refine your beauty search</b><span id="resultCount"></span></div>
+  <div class="filter-row">
+    <select id="priceFilter" onchange="applyAdvancedFilters()">
+      <option value="all">Any price</option><option value="0-1000">Under KES 1,000</option>
+      <option value="1000-2500">KES 1,000–2,500</option><option value="2500-5000">KES 2,500–5,000</option><option value="5000+">KES 5,000+</option>
+    </select>
+    <select id="ratingFilter" onchange="applyAdvancedFilters()"><option value="0">Any rating</option><option value="4.8">4.8+ stars</option><option value="4.5">4.5+ stars</option></select>
+    <button class="filter-chip active" onclick="setQuickFilter('all',this)">All</button>
+    <button class="filter-chip" onclick="setQuickFilter('sale',this)">On sale</button>
+    <button class="filter-chip" onclick="setQuickFilter('new',this)">New arrivals</button>
+    <button class="filter-chip" onclick="setQuickFilter('best',this)">Best sellers</button>
+  </div>
+</div>
+
 <div id="products" class="product-grid"></div>
 </section>
 
@@ -85,12 +119,140 @@
 <div class="chat-preview"><b>Beauty AI ✨</b><p>“What skincare routine would you recommend for a glowing look?”</p><span>Tap to get started →</span></div>
 </section>
 
+
+<section class="mega-benefits">
+  <div><b>🚚 Fast delivery</b><span>Flexible delivery options</span></div>
+  <div><b>✨ Curated beauty</b><span>Makeup, skincare & fragrance</span></div>
+  <div><b>🔒 Secure checkout</b><span>M-PESA, PayPal, bank & cards</span></div>
+  <div><b>💬 Beauty support</b><span>Help before and after purchase</span></div>
+</section>
+
+<section class="routine-section section">
+  <div class="shop-head">
+    <div><p class="eyebrow">BUILD YOUR ROUTINE</p><h2>Beauty, step by step</h2><p class="muted">Shop complete routines instead of hunting for individual products.</p></div>
+  </div>
+  <div class="routine-grid">
+    <article onclick="filterCat('Skincare')"><img src="https://images.unsplash.com/photo-1612817288484-6f916006741a?auto=format&fit=crop&w=1000&q=85"><div><span>01</span><h3>Cleanse & hydrate</h3><p>Everyday skincare essentials.</p></div></article>
+    <article onclick="filterCat('Makeup')"><img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&w=1000&q=85"><div><span>02</span><h3>Prep & glow</h3><p>Base, cheeks, lips and eyes.</p></div></article>
+    <article onclick="filterCat('Hair')"><img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1000&q=85"><div><span>03</span><h3>Care & style</h3><p>Healthy-looking hair essentials.</p></div></article>
+  </div>
+</section>
+
+<section class="story-section section">
+  <div class="story-image"><img src="https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?auto=format&fit=crop&w=1200&q=85" alt="Beauty shopping"></div>
+  <div class="story-copy"><p class="eyebrow">BEAUTY QUEEN</p><h2>Your beauty shelf, beautifully curated.</h2><p>Explore an elevated catalog designed for discovering new favorites, building routines and finding thoughtful gifts.</p><div class="story-stats"><span><b>100+</b> beauty picks</span><span><b>4.8/5</b> customer rating</span><span><b>24/7</b> online shopping</span></div><button class="btn" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">Explore collection</button></div>
+</section>
+
+<section class="lookbook-section section">
+  <div class="shop-head"><div><p class="eyebrow">THE BEAUTY EDIT</p><h2>Trending now</h2><p class="muted">Save the looks you love and shop the collection.</p></div></div>
+  <div class="lookbook-grid">
+    <article><img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=900&q=85"><div><b>Soft glam</b><span>Shop makeup</span></div></article>
+    <article><img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=900&q=85"><div><b>Fresh skin</b><span>Shop skincare</span></div></article>
+    <article><img src="https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=900&q=85"><div><b>Signature scent</b><span>Shop perfume</span></div></article>
+    <article><img src="https://images.unsplash.com/photo-1519699047748-de8e457a634e?auto=format&fit=crop&w=900&q=85"><div><b>Hair ritual</b><span>Shop hair care</span></div></article>
+  </div>
+</section>
+
+<section class="reviews-section section">
+  <div class="shop-head"><div><p class="eyebrow">CUSTOMER LOVE</p><h2>What beauty lovers say</h2></div></div>
+  <div class="review-grid">
+    <blockquote><div>★★★★★</div><p>“Beautiful selection and the shopping experience feels premium.”</p>
+<section class="newsletter section">
+  <div><p class="eyebrow">BEAUTY QUEEN CLUB</p><h2>Get first access to beauty drops.</h2><p>New arrivals, offers and curated routines—straight to your inbox.</p></div>
+  <form onsubmit="subscribeBeauty(event)"><input id="newsletterEmail" type="email" required placeholder="Your email address"><button class="btn" type="submit">Join the club</button></form>
+</section>
+
+<footer>— Amina M.</footer></blockquote>
+    <blockquote><div>★★★★★</div><p>“I found my skincare routine in one place. The product cards are so easy to browse.”</p><footer>— Sarah K.</footer></blockquote>
+    <blockquote><div>★★★★★</div><p>“The gift collection makes it easy to choose something special.”</p><footer>— Nimo H.</footer></blockquote>
+  </div>
+</section>
+
 <footer id="about"><div><a class="logo">BEAUTY <span>QUEEN</span></a><p>Luxury cosmetics and beauty essentials.</p></div>
 <div><b>Shop</b><a>Skincare</a><a>Makeup</a><a>Perfumes</a><a>Hair Care</a></div>
 <div><b>Help</b><a>Delivery</a><a>Returns</a><a>Contact</a><a>FAQ</a></div>
 <div><b>Newsletter</b><p>Get beauty drops and offers.</p><input placeholder="Your email"><button class="btn">Join</button></div></footer>
 
 <div id="cart" class="drawer"><div class="drawer-head"><h2>Your bag</h2><button onclick="toggleCart()">×</button></div><div id="cartItems"></div><div class="total"><span>Total</span><b id="total">KES 0</b></div><button class="btn full" onclick="checkout()">Proceed to checkout</button></div>
+
+<section class="payment-methods">
+  <div class="payment-title">
+    <div><span class="eyebrow">SECURE CHECKOUT</span><h3>Choose payment method</h3></div>
+    <span class="secure-badge">🔒 Secure</span>
+  </div>
+  <div class="payment-grid">
+    <button class="payment-option active" data-pay="mpesa" onclick="selectPayment('mpesa')">
+      <span class="pay-icon mpesa-icon">M</span><span><b>M-PESA</b><small>STK Push / Till</small></span><span class="pay-check">✓</span>
+    </button>
+    <button class="payment-option" data-pay="bank" onclick="selectPayment('bank')">
+      <span class="pay-icon">🏦</span><span><b>Bank Transfer</b><small>Pay via bank account</small></span><span class="pay-check">✓</span>
+    </button>
+    <button class="payment-option" data-pay="paypal" onclick="selectPayment('paypal')">
+      <span class="pay-icon paypal-icon">P</span><span><b>PayPal</b><small>PayPal checkout</small></span><span class="pay-check">✓</span>
+    </button>
+    <button class="payment-option" data-pay="card" onclick="selectPayment('card')">
+      <span class="pay-icon">💳</span><span><b>Card</b><small>Visa / Mastercard</small></span><span class="pay-check">✓</span>
+    </button>
+    <button class="payment-option" data-pay="mobile" onclick="selectPayment('mobile')">
+      <span class="pay-icon">📱</span><span><b>Mobile Money</b><small>Supported wallets</small></span><span class="pay-check">✓</span>
+    </button>
+    <button class="payment-option" data-pay="cash" onclick="selectPayment('cash')">
+      <span class="pay-icon">💵</span><span><b>Cash on Delivery</b><small>Where available</small></span><span class="pay-check">✓</span>
+    </button>
+  </div>
+  <div id="paymentForm" class="payment-form"></div>
+  <div class="payment-trust"><span>🔐 SSL-ready checkout</span><span>✓ No card details stored</span><span>📦 Order confirmation</span></div>
+</section>
+
 <div id="overlay" onclick="toggleCart()"></div>
+
+<div id="productModal" class="product-modal" aria-hidden="true">
+  <div class="product-modal-card">
+    <button class="modal-close" onclick="closeProduct()">×</button>
+    <div id="productDetail"></div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
 <script src="src/app.js"></script>
+<script src="src/live-store.js"></script>
+
+<!-- BEAUTY QUEEN V7 REAL CHECKOUT OVERLAY — added without removing V6 checkout -->
+<div id="realCheckout" class="real-checkout" aria-hidden="true">
+  <div class="real-checkout-card">
+    <button class="real-close" onclick="BQ_closeCheckout()">×</button>
+    <div class="real-checkout-head">
+      <span class="eyebrow">SECURE CHECKOUT</span>
+      <h2>Complete your Beauty Queen order</h2>
+      <p>Choose M-PESA, PayPal, card/manual bank transfer or cash on delivery.</p>
+    </div>
+    <div class="real-checkout-grid">
+      <form id="realCheckoutForm" onsubmit="return BQ_submitCheckout(event)">
+        <label>Full name<input id="bqName" required></label>
+        <label>Email<input id="bqEmail" type="email"></label>
+        <label>Phone / M-PESA number<input id="bqPhone" required placeholder="2547XXXXXXXX"></label>
+        <label>Delivery address<textarea id="bqAddress" required></textarea></label>
+        <label>Payment method
+          <select id="bqPayment" onchange="BQ_paymentFields()">
+            <option value="mpesa">M-PESA — STK Push</option>
+            <option value="paypal">PayPal</option>
+            <option value="card">Visa / Mastercard</option>
+            <option value="bank">Bank Transfer</option>
+            <option value="mobile_money">Mobile Money</option>
+            <option value="cod">Cash on Delivery</option>
+          </select>
+        </label>
+        <div id="bqPaymentHint" class="payment-hint">You will receive an M-PESA STK prompt after placing the order.</div>
+        <button class="btn btn-primary" type="submit">Place secure order</button>
+        <p id="bqCheckoutStatus" class="checkout-status"></p>
+      </form>
+      <aside class="real-summary">
+        <span class="eyebrow">ORDER SUMMARY</span>
+        <div id="bqSummaryItems"></div>
+        <div class="real-total"><span>Total</span><strong id="bqTotal">KES 0</strong></div>
+      </aside>
+    </div>
+  </div>
+</div>
+
 </body></html>
